@@ -1,19 +1,40 @@
 package com.example.w13_d2_hw.models;
 
-import com.example.w13_d2_hw.models.File;
-import com.example.w13_d2_hw.models.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "folders")
 public class Folder {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column
     private String title;
+    @Column
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    private ArrayList<File> files;
+    @JsonBackReference
+    @OneToMany(mappedBy = "folder", fetch = FetchType.LAZY)
+    private List<File> files;
 
     public Folder(String title, User user, ArrayList<File> files) {
         this.title = title;
         this.user = user;
         this.files = files;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -32,7 +53,7 @@ public class Folder {
         this.user = user;
     }
 
-    public ArrayList<File> getFiles() {
+    public List<File> getFiles() {
         return files;
     }
 

@@ -1,14 +1,31 @@
 package com.example.w13_d2_hw.models;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column
     private String name;
-    private ArrayList<Folder> folders;
+    @OneToMany(mappedBy = "folder", fetch = FetchType.LAZY)
+    private List<Folder> folders;
 
     public User(String name, ArrayList<Folder> folders) {
         this.name = name;
         this.folders = folders;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -19,7 +36,7 @@ public class User {
         this.name = name;
     }
 
-    public ArrayList<Folder> getFolders() {
+    public List<Folder> getFolders() {
         return folders;
     }
 
